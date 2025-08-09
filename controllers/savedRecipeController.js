@@ -40,3 +40,41 @@ exports.addSavedController = async(req , res)=>{
         res.status(500).json(error)
     }
 }
+
+
+
+//get all saved recipes
+exports.getAllSavedRecipeController = async(req , res)=>{
+
+    const userId = req.payload
+    console.log(userId);
+    
+
+    try {
+
+        const allSavedRecipes = await savedRecipes.find({userId})
+        res.status(200).json(allSavedRecipes)
+        
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+
+//to delete a saaved recipe
+exports.deleteASavedRecipeController = async(req , res) => {
+
+    //delete based on _id unique key in every document
+
+    const {id} = req.params
+
+    try {
+
+        await savedRecipes.findByIdAndDelete({_id:id})
+        res.status(200).json('Deleted')
+        
+    } catch (error) {
+        res.status(500).json(error)
+    }
+
+}
